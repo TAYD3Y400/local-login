@@ -1,3 +1,21 @@
 # .gitignore
-.env
+
+# virtual enviroments
 venv/
+.env
+
+# os
+.DS_Store
+Thumbs.db
+
+# logs
+*.log
+
+# IDLE
+.idea/
+.vscode/
+
+# python compilation files
+__pycache__/
+*.pyc
+*.pyo
