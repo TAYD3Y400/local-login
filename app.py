@@ -27,7 +27,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute("SELECT * FROM users "
+        cursor.execute("SELECT * FROM accounts "
                        "WHERE username = %s "
                        "AND password = %s", (username, password))
         result = cursor.fetchone()
@@ -35,7 +35,7 @@ def login():
             session['logged_in'] = True
             session['id'] = result['id']
             session['username'] = result['username']
-            return render_template('index.html', msg='logged in successfully')
+            return render_template('login.html', msg='logged in successfully')
         else:
             msg = "Incorrect username or password"
     return render_template('login.html', msg=msg)
