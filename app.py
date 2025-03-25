@@ -22,10 +22,23 @@ mysql = MySQL(app)
 @app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    msg
-@app.route('/')
-def hello_world():  # put application's code here
-    return app.secret_key
+    msg = ""
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+        username = request.form['username']
+        password = request.form['password']
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute("SELECT * FROM users "
+                       "WHERE username = %s "
+                       "AND password = %s", (username, password))
+        result = cursor.fetchone()
+        if result:
+            session['logged_in'] = True
+            session['id'] = result['id']
+            session['username'] = result['username']
+            return render_template('index.html', msg='logged in successfully')
+        else:
+            msg = "Incorrect username or password"
+    return render_template('login.html', msg=msg)
 
 
 if __name__ == '__main__':
